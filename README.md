@@ -26,6 +26,7 @@
 
 | 想看什么 | 去哪里 |
 |---|---|
+| **协作规约（改本仓库前必读）** | [`AGENTS.md`](AGENTS.md) |
 | **开发方案（唯一权威蓝图）** | [`docs/plan/小学信息学十佳之星-WebApp开发方案.md`](docs/plan/小学信息学十佳之星-WebApp开发方案.md) |
 | 文档总索引 | [`docs/README.md`](docs/README.md) |
 | 项目结构与目录说明 | [`docs/guides/01-项目结构与目录说明.md`](docs/guides/01-项目结构与目录说明.md) |
