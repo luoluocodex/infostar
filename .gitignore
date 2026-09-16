@@ -1,21 +1,47 @@
-.workbuddy/_ref/extract.py
-.workbuddy/_ref/tmp.doc
-.workbuddy/_ref/txt/00_考纲_珠海市小学信息学十佳之星.txt
-.workbuddy/_ref/txt/10_信息学2024十佳之星（小学组）答案.txt
-.workbuddy/_ref/txt/10_信息学2024十佳之星（小学组）试卷.txt
-.workbuddy/_ref/txt/10_信息学思维训练题.txt
-.workbuddy/_ref/txt/10_信息学思维训练题（答案）.txt
-.workbuddy/_ref/txt/10_六年级数学思考模拟题.txt
-.workbuddy/_ref/txt/20_NOIP2014普级组复赛试题（机试参考）.txt
-.workbuddy/_ref/txt/20_noi竞赛大纲.txt
-.workbuddy/_ref/txt/30_C++训练题.txt
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/C++训练题.doc
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/NOIP2014普级组复赛试题（机试参考）.pdf
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/noi竞赛大纲.pdf
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/信息学2024十佳之星（小学组）答案.docx
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/信息学2024十佳之星（小学组）试卷.docx
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/信息学思维训练题.docx
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/信息学思维训练题（答案）.docx
-.workbuddy/_ref/unzipped/信息学十佳之星赛前练习资料/六年级数学思考模拟题.docx
+# ========== 依赖与构建产物 ==========
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# ========== 测试与覆盖率 ==========
+coverage/
+.nyc_output/
+
+# ========== 环境变量与密钥 ==========
+.env
+.env.*
+!.env.example
+.htpasswd
+*.pem
+*.key
+
+# ========== 编辑器与系统文件 ==========
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# ========== 日志与临时文件 ==========
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+.eslintcache
+
+# ========== 文档提取中间产物（可由 reference/ 复现，不入库） ==========
+.workbuddy/_ref/
+
+# 注：.workbuddy/memory/ 是项目长期记忆（决策与约定），默认纳入版本管理。
+# 若希望只保留在本地、不提交，取消下面一行注释即可：
+# .workbuddy/memory/
+
+# ========== 镜像归档 ==========
+infostar-*.tar
 .workbuddy/memory/2026-09-16.md
 .workbuddy/memory/MEMORY.md
