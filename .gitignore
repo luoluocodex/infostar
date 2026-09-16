@@ -8,6 +8,13 @@ dist-ssr/
 coverage/
 .nyc_output/
 
+# ========== Playwright 真实浏览器验证产物 ==========
+e2e-report/
+e2e-results/
+playwright-report/
+test-results/
+.playwright-cli/
+
 # ========== 环境变量与密钥 ==========
 .env
 .env.*

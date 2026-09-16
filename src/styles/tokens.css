@@ -1,0 +1,97 @@
+/* =========================================================================
+ * tokens.css · 信息学闯关 设计令牌（唯一数据源）
+ * 颜色 / 字体 / 圆角 / 阴影 / 动效曲线 全部在此定义，组件里不再散落魔法值。
+ * 主题：浅色、温暖纸感（非纯白纯灰），面向 10–12 岁儿童但保持克制与可读。
+ * ========================================================================= */
+
+:root {
+  /* ---------- 背景与容器（70% 主调：温暖纸感） ---------- */
+  --c-paper: #fbf1e3;          /* 页面底色（暖奶油） */
+  --c-paper-deep: #f2e0c8;     /* 渐变深端 / 舞台背景 */
+  --c-surface: #fffcf6;        /* 卡片表面 */
+  --c-surface-sunken: #f7ebda; /* 凹陷容器 / 代码底 */
+
+  /* ---------- 文字（墨色，暖调） ---------- */
+  --c-ink: #2c211a;            /* 正文与标题，对比度 ≈ 14:1 */
+  --c-ink-soft: #5c4a3a;       /* 次级文字，≈ 7.5:1 */
+  --c-ink-faint: #7a675a;      /* 辅助文字（12–13px），最差背景下仍 ≥ 4.5:1 */
+
+  /* ---------- 线条 ---------- */
+  --c-line: rgba(44, 33, 26, 0.12);
+  --c-line-strong: rgba(44, 33, 26, 0.24);
+
+  /* ---------- 品牌主色（20% 次调：青蓝，白字对比度 4.85:1） ---------- */
+  --c-brand: #147d8a;
+  --c-brand-deep: #0b5762;
+  --c-brand-soft: #dcecee;
+
+  /* ---------- 点缀色（10%：暖橙，仅配深墨字或作描边） ---------- */
+  --c-accent: #e9612f;         /* 仅作描边 / 色点等装饰（对底色 3.3:1，满足 UI 3:1） */
+  --c-accent-deep: #ab3f18;    /* 承载白字或浅底文字时使用，白字 6.1:1、浅底 5.0:1 */
+  --c-accent-soft: #fbe4d7;
+  --c-sun: #f0b131;            /* 仅作装饰色块，**不可**承载白字（白字仅 1.9:1） */
+  --c-sun-deep: #8a5b00;       /* 承载白字时使用（白字 5.9:1） */
+  --c-leaf: #387f51;           /* 绿色填充 / 承载白字（白字 4.86:1） */
+  --c-leaf-deep: #2f6a45;      /* 绿色文字的深端（浅底 6.3:1，用于「已拿到」文字） */
+  --c-danger: #b8452f;
+
+  /* ---------- 区域主题色 ----------
+   * xxx 用于描边/填充等装饰；xxx-deep 用于承载白字或浅底文字（保证 ≥4.5:1）。 */
+  --c-region-c: #e9612f;       /* C 区「爬楼梯的秘密」 */
+  --c-region-c-deep: #b5411b;
+  --c-region-c-soft: #fbe4d7;
+  --c-region-d: #147d8a;       /* D 区「会变的盒子」 */
+  --c-region-d-deep: #0f6a75;
+  --c-region-d-soft: #dcecee;
+
+  /* ---------- 字体 ----------
+   * display：数字与拉丁字母用有辨识度的圆润显示体（自托管 Baloo 2），
+   *          中文落到系统黑体（PingFang / 微软雅黑 / 思源黑体）。
+   * sans：正文（系统中文字体优先，保证中文渲染质量与体积）。 */
+  --font-display: 'Baloo 2', 'Nunito', 'PingFang SC', 'Microsoft YaHei',
+    'Hiragino Sans GB', 'Source Han Sans SC', 'Noto Sans SC', sans-serif;
+  --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB',
+    'Source Han Sans SC', 'Noto Sans SC', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', 'SFMono-Regular', Consolas,
+    'Liberation Mono', 'Menlo', monospace;
+
+  /* ---------- 字号阶梯（戏剧化跳跃，正文 ≥16px） ---------- */
+  --t-hero: clamp(30px, 8.4vw, 40px);
+  --t-h1: clamp(24px, 6.4vw, 30px);
+  --t-h2: 21px;
+  --t-h3: 18px;
+  --t-body: 17px;
+  --t-small: 16px;
+  --t-tiny: 13px;              /* 仅用于徽标/角标，不承载正文 */
+
+  /* ---------- 圆角 ---------- */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+
+  /* ---------- 阴影（暖调，不用灰黑） ---------- */
+  --sh-card: 0 2px 0 rgba(44, 33, 26, 0.08), 0 10px 24px -12px rgba(90, 62, 35, 0.35);
+  --sh-lift: 0 4px 0 rgba(44, 33, 26, 0.1), 0 18px 34px -14px rgba(90, 62, 35, 0.42);
+  --sh-inset: inset 0 2px 6px rgba(44, 33, 26, 0.1);
+
+  /* ---------- 动效 ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --d-fast: 120ms;
+  --d-base: 220ms;
+  --d-slow: 420ms;
+
+  /* ---------- 布局 ---------- */
+  --w-app: 480px;              /* 手机优先；桌面居中约束 */
+  --h-tap: 48px;               /* 触摸目标下限（≥44px） */
+}
+
+/* 尊重系统的「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-fast: 0ms;
+    --d-base: 0ms;
+    --d-slow: 0ms;
+  }
+}

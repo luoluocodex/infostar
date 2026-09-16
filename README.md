@@ -4,7 +4,7 @@
 > 用**生活化类比 + 可视化执行**，把 C++ 语句与数学思维讲成一部能玩的小剧——**以玩带练**。
 
 <p>
-<img alt="status" src="https://img.shields.io/badge/状态-方案阶段-blue">
+<img alt="status" src="https://img.shields.io/badge/状态-MVP%20可玩-blue">
 <img alt="stack" src="https://img.shields.io/badge/技术栈-React%2018%20%2B%20Vite%20%2B%20TS-green">
 <img alt="deploy" src="https://img.shields.io/badge/部署-群晖%20Docker%20%2B%20HTTPS-orange">
 </p>
@@ -20,7 +20,8 @@
 - **技术内核**：自研 **C++ 子集解释器**（Lexer → Parser → Interpreter → Frame Trace），把程序执行变成可播放的动画；
 - **部署形态**：**纯前端 SPA + nginx 静态容器**，跑在自有群晖 NAS 上，HTTPS + PWA 可安装可离线，无后端、无数据库。
 
-> 本仓库当前处于 **文档阶段**：方案、指南、原始资料已就位；代码将按 Phase 0 → MVP 逐步落地。
+> 当前进度：**Phase 0 地基 + Phase 1 MVP 已落地**——2 章 12 关的完整闭环可玩可存档，
+> 题库通过构建期校验（Zod + 引擎真跑），引擎有单元测试，界面有真实浏览器验证。
 
 ## 快速导航
 
@@ -62,48 +63,80 @@
 
 ## 路线图
 
-| 阶段 | 目标 | 里程碑 |
-|---|---|---|
-| **Phase 0** | 地基与规范（工程骨架 + 部署链路 + 内容规范） | M0 |
-| **Phase 1** | **MVP：2 主题 12 关，跑通完整闭环** | **M1** |
-| Phase 2 | 引擎覆盖全部 C++ 考纲；题库 150 题 | M2 |
-| Phase 3 | 6 大算法剧场；题库 280 题；错题本 | M3 |
-| Phase 4 | 400 题全量 + 学习报告 + 真题擂台 | M4 |
+| 阶段 | 目标 | 里程碑 | 状态 |
+|---|---|---|---|
+| **Phase 0** | 地基与规范（工程骨架 + 部署链路 + 内容规范） | M0 | ✅ 已完成 |
+| **Phase 1** | **MVP：2 主题 12 关，跑通完整闭环** | **M1** | ✅ 已完成 |
+| Phase 2 | 引擎覆盖全部 C++ 考纲；题库 150 题 | M2 | 待开始 |
+| Phase 3 | 6 大算法剧场；题库 280 题；错题本 | M3 | 待开始 |
+| Phase 4 | 400 题全量 + 学习报告 + 真题擂台 | M4 | 待开始 |
 
-## 本地开始（文档阶段）
+## MVP 里已经能玩到什么
 
-本阶段无需构建，直接阅读文档即可：
+| 能力 | 落地位置 |
+|---|---|
+| 蜿蜒小路闯关地图（12 关 / 2 区域 / 星级 / 逐关解锁） | `src/routes/MapPage.tsx` |
+| 关卡五段式：情境 → 讲一讲 → 动手 → 反馈 → 结算 | `src/routes/LevelPage.tsx` |
+| 五种题型：数学选择 / 数学填空 / 数学动手 / 读程序 / 程序填空 | `src/components/question/` |
+| 拖拽积木 v1（L1 填空式，长按拖动 + 点选双路径） | `src/components/blocks/`、`src/engine/blocks/` |
+| C++ 子集解释器 → 执行帧 → 可视化回放 | `src/engine/cpp/`、`src/components/viz/`、`src/components/runner/` |
+| 星级 / 存档 / 导出导入 | `src/engine/grade.ts`、`src/store/` |
+| PWA（可安装、离线可进地图与关卡） | `vite.config.ts`、`src/main.tsx` |
+| 群晖 Docker 部署三件套 | `Dockerfile`、`docker-compose.yml`、`nginx.conf` |
 
-```bash
-git clone <repo-url> infostar
-cd infostar
-# 从 docs/plan/ 开始读方案，再按 docs/guides/ 施工
-```
-
-代码阶段（Phase 0 起）将提供：
+## 本地开始
 
 ```bash
 npm install
-npm run dev              # 本地开发
-npm run validate:content # 题库校验（构建前必跑）
-npm run build            # 产出 dist/
-docker compose up -d     # NAS 上起容器
+npm run dev              # 本地开发（http://127.0.0.1:5173）
 ```
+
+质量门禁（提交前建议全绿）：
+
+```bash
+npm run lint             # 应用类型检查（TypeScript strict）
+npm run lint:e2e         # e2e 用例类型检查
+npm run validate:content # 题库校验：Zod + 把程序题真跑一遍
+npm run test             # 引擎单元测试（解释器 / 判分 / 积木，91 个用例）
+npm run build            # 产出 dist/ 与 PWA 资源
+npm run verify           # 上面五步串起来
+npm run e2e              # 真实浏览器验证（Playwright，自动构建 + 起 preview）
+npm run verify:full      # verify + e2e
+```
+
+## 部署到群晖 NAS
+
+```bash
+docker compose build
+docker compose up -d     # 容器只监听 127.0.0.1:8081
+```
+
+公网访问经群晖**反向代理**转发 80/443 进来，TLS 由 Let's Encrypt 终止；
+容器**绝不**绑定 `0.0.0.0`，**绝不**暴露 DSM `5000/5001`。
+完整步骤与安全清单见 [部署指南](docs/guides/02-部署指南（群晖NAS）.md)。
 
 ## 目录速览
 
 ```
 infostar/
-├─ README.md          CHANGELOG.md         .gitignore
+├─ README.md          CHANGELOG.md         AGENTS.md         .gitignore
 ├─ docs/
 │  ├─ plan/           主方案（唯一权威蓝图）
 │  ├─ reference/      原始资料（考纲 / 真题 / 训练题）
 │  └─ guides/         01 结构 · 02 部署 · 03 题库规范 · 04 MVP 规格 · 05 术语
-├─ src/               （Phase 0 起：routes / engine / components / content / store）
-├─ public/            （PWA 图标、插画 SVG）
-└─ Dockerfile  docker-compose.yml  nginx.conf  vite.config.ts  package.json
+├─ src/
+│  ├─ engine/         cpp/ 子集解释器 · blocks/ 积木引擎 · grade.ts 判分
+│  ├─ content/        题库数据（按区域拆包 + Zod Schema + 交叉校验）
+│  ├─ components/     viz/ 可视化 · runner/ 播放器 · blocks/ 积木 · question/ 题型
+│  ├─ routes/         地图 / 关卡 / 结算 / 设置
+│  ├─ store/          进度（Zustand + Dexie）与设置
+│  ├─ i18n/zh.ts      全部中文文案（组件里不硬编码文案）
+│  └─ styles/         tokens.css 设计令牌 + index.css 全局样式
+├─ e2e/               Playwright 真实浏览器验证用例
+├─ scripts/           题库校验 / 图标生成 / 字体抓取
+├─ public/            PWA 图标、自托管字体、favicon
+└─ Dockerfile  docker-compose.yml  nginx.conf  nginx-limit-zone.conf
 ```
-
 详见 [项目结构与目录说明](docs/guides/01-项目结构与目录说明.md)。
 
 ---

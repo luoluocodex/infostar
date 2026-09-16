@@ -1,0 +1,44 @@
+# =============================================================================
+# 信息学闯关 · 群晖 NAS 部署（docker compose）
+# 依据：主方案 §9、docs/guides/02-部署指南（群晖NAS）.md、AGENTS §2.8
+#
+# 端口策略（硬约束）：
+#   - 容器只绑到 127.0.0.1:8081，绝不绑 0.0.0.0
+#   - 公网只经群晖反向代理转发 80/443 进来
+#   - 绝不暴露 DSM 5000/5001
+#
+# 用法（在仓库根目录）：
+#   docker compose build
+#   docker compose up -d
+#   docker compose logs -f
+# =============================================================================
+
+services:
+  infostar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: infostar:latest
+    container_name: infostar
+    restart: unless-stopped
+
+    # 只监听本机回环，外部流量必须经群晖反向代理进来
+    ports:
+      - '127.0.0.1:8081:80'
+
+    # 纯静态站点，容器内不需要写权限
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+
+    # 明确声明“不需要额外权限”，配合只读根文件系统
+    security_opt:
+      - no-new-privileges:true
+
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'

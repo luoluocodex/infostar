@@ -1,0 +1,282 @@
+/* =========================================================================
+ * index.css · 全局基础样式 + 氛围层
+ * ========================================================================= */
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- 自托管显示字体（数字/拉丁字母），无外部 CDN ---------- */
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/baloo2-latin-700.woff2') format('woff2-variations'),
+    url('/fonts/baloo2-latin-700.woff2') format('woff2');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--t-body);
+    line-height: 1.6;
+    color: var(--c-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+
+    /* 氛围层：暖色径向光斑 + 极细噪点，杜绝纯白平铺 */
+    background-color: var(--c-paper);
+    background-image:
+      radial-gradient(120% 70% at 12% -6%, #ffe9c9 0%, rgba(255, 233, 201, 0) 62%),
+      radial-gradient(100% 60% at 92% 4%, #d8eef0 0%, rgba(216, 238, 240, 0) 58%),
+      radial-gradient(120% 80% at 50% 108%, #f6dfc4 0%, rgba(246, 223, 196, 0) 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed, fixed, fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* 可见焦点态：键盘与辅助设备可达 */
+  :focus-visible {
+    outline: 3px solid var(--c-brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--c-brand-soft);
+  }
+
+  /* 数字与拉丁字母统一走显示字体，制造排版辨识度 */
+  .num,
+  .font-display {
+    font-family: var(--font-display);
+    font-feature-settings: 'tnum' 1;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* ---------- 应用外壳：手机优先，桌面居中 ---------- */
+  .app-shell {
+    width: 100%;
+    max-width: var(--w-app);
+    margin-inline: auto;
+    padding-inline: 18px;
+    padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    min-height: 100dvh;
+  }
+
+  /* ---------- 卡片 ---------- */
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-card);
+  }
+
+  /* ---------- 主按钮：命中区 ≥48px ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: var(--h-tap);
+    padding: 0 22px;
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    font-size: var(--t-body);
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform var(--d-fast) var(--ease-out),
+      box-shadow var(--d-fast) var(--ease-out), background-color var(--d-fast) linear;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.99);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--c-brand);
+    color: #fff;
+    box-shadow: 0 3px 0 var(--c-brand-deep), 0 10px 20px -10px rgba(20, 125, 138, 0.7);
+  }
+  .btn-primary:active {
+    box-shadow: 0 1px 0 var(--c-brand-deep);
+  }
+
+  .btn-accent {
+    background: var(--c-accent-deep);
+    color: #fff;
+    box-shadow: 0 3px 0 #8d3413, 0 10px 20px -10px rgba(188, 72, 32, 0.65);
+  }
+  .btn-accent:active {
+    box-shadow: 0 1px 0 #8d3413;
+  }
+
+  .btn-ghost {
+    background: var(--c-surface);
+    color: var(--c-ink);
+    border-color: var(--c-line-strong);
+  }
+
+  /* ---------- 徽标 / 药丸 ---------- */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: var(--t-tiny);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- 代码块：可横向滚动但绝不溢出页面 ---------- */
+  .code-block {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.7;
+    background: #2f2620;
+    color: #f6ead9;
+    border-radius: var(--r-md);
+    padding: 14px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    tab-size: 2;
+  }
+  .code-line {
+    display: block;
+    white-space: pre;
+    padding-inline: 6px;
+    border-radius: 6px;
+  }
+  .code-line-active {
+    background: rgba(240, 177, 49, 0.22);
+    box-shadow: inset 3px 0 0 var(--c-sun);
+  }
+
+  /* ---------- 虚拟按键（数字键盘 / 签名键） ---------- */
+  .keycap {
+    min-height: var(--h-tap);
+    border-radius: var(--r-sm);
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    box-shadow: 0 2px 0 rgba(44, 33, 26, 0.14);
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    transition: transform var(--d-fast) var(--ease-out);
+  }
+  .keycap:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  /* ---------- 舞台：可视化执行区 ---------- */
+  .stage {
+    position: relative;
+    border-radius: var(--r-lg);
+    background:
+      radial-gradient(90% 70% at 50% 0%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 70%),
+      linear-gradient(180deg, #fdf4e5 0%, #f6e6cf 100%);
+    border: 1px solid var(--c-line);
+    box-shadow: var(--sh-inset);
+    overflow: hidden;
+  }
+  .stage::after {
+    /* 幕布条纹，制造「小剧场」记忆点 */
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 34px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(188, 72, 32, 0.16) 0 10px,
+      rgba(188, 72, 32, 0.05) 10px 20px
+    );
+    border-bottom: 1px solid var(--c-line);
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .tap-target {
+    min-height: var(--h-tap);
+    min-width: var(--h-tap);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* 动画降级：系统开启「减少动态效果」时统一关闭 */
+  @media (prefers-reduced-motion: reduce) {
+    .anim-safe {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* 打印与无障碍：隐藏装饰 */
+@media print {
+  .stage::after {
+    display: none;
+  }
+}
